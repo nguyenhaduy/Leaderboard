@@ -122,7 +122,7 @@ Plays 40004 4004 "omgnic"
 
 Plays 40004 4005 "nic"
 
- 
+
 
 WinVictory 40001 4001 901
 
@@ -148,7 +148,7 @@ WinVictory 40001 4003 702
 
 WinVictory 40001 4004 601
 
- 
+
 
 WinVictory 40002 4001 901
 
@@ -158,7 +158,7 @@ WinVictory 40002 4003 701
 
 WinVictory 40002 4004 601
 
- 
+
 
 WinVictory 40003 4001 901
 
@@ -176,7 +176,7 @@ WinVictory 40003 4004 601
 
 WinVictory 40003 4004 602
 
- 
+
 
 WinVictory 40004 4001 901
 
@@ -189,4 +189,8 @@ WinVictory 40004 4004 601
 WinVictory 40004 4005 501
 
 WinVictory 40004 4005 502
+
+
+
+SummarizePlayer 40001
 
