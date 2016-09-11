@@ -97,6 +97,26 @@ void Friends_Who_Play(istringstream& iss, map <int, Player>& playerlist){
     iss >> game_id;
     cout << player_id << endl;
     cout << game_id << endl;
+    cout << "Friends Who Play this game are :" << endl;
+    Player temp_player(playerlist.at(player_id));
+    vector<int> friend_id = temp_player.get_player_friend();
+    for (int i = 0; i < friend_id.size(); ++i){
+        Player temp_friend(playerlist.at(friend_id[i]));
+        vector<int> games_played = temp_friend.get_player_games();
+        for (int j = 0; j < games_played.size(); ++j){
+            if (game_id == games_played[j])
+                cout << playerlist.at(i).get_player_name()<<endl;
+        }
+    }
+    // temp_player = playerlist.at(player_id);
+    // for (auto const& x : playerlist)
+    // {
+
+    //     std::cout << x.first  // Player_id (key)
+    //               << ':' 
+    //               << x.second // string's value 
+    //               << endl ;
+    // }
 }
 
 void Compare_Players(istringstream& iss, map <int, Player>& playerlist){
@@ -107,6 +127,17 @@ void Compare_Players(istringstream& iss, map <int, Player>& playerlist){
     cout << player_id_1 << endl;
     cout << player_id_2 << endl;
     cout << game_id << endl;
+    cout << "Friends Who Play this game are :" << endl;
+    Player temp_player(playerlist.at(player_id));
+    vector<int> friend_id = temp_player.get_player_friend();
+    for (int i = 0; i < friend_id.size(); ++i){
+        Player temp_friend(playerlist.at(friend_id[i]));
+        vector<int> games_played = temp_friend.get_player_games();
+        for (int j = 0; j < games_played.size(); ++j){
+            if (game_id == games_played[j])
+                cout << playerlist.at(i).get_player_name()<<endl;
+        }
+    }
 }
 void Summarize_Player(istringstream& iss, map <int, Player>& playerlist){
     int player_id;

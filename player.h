@@ -23,8 +23,48 @@ class Player {
 public:
 	Player(string name, int id)
 	:Player_Name(name), Player_ID(id), Player_Point(0) {}
+
+	//Copy contructor
+	Player(const Player& temp_player)
+    {       
+        Player_ID = temp_player.Player_ID;
+        Player_Name = temp_player.Player_Name;
+        Player_Point = temp_player.Player_Point;
+        Player_ign =  temp_player.Player_ign;
+        Player_Games_ID = temp_player.Player_Games_ID;
+        Player_Victories = temp_player.Player_Victories;
+        Player_Friend = temp_player.Player_Friend;
+    }
+
+    //Copy assignemnt operator
+    Player& operator= (const Player& temp_player)
+    {
+        if (this != &temp_player) // prevent self-assignment
+        {
+            Player_ID = temp_player.Player_ID;
+        	Player_Name = temp_player.Player_Name;
+        	Player_Point = temp_player.Player_Point;
+        	Player_ign =  temp_player.Player_ign;
+        	Player_Games_ID = temp_player.Player_Games_ID;
+        	Player_Victories = temp_player.Player_Victories;
+        	Player_Friend = temp_player.Player_Friend;
+        }
+        return *this;
+    }
+    vector<int> get_player_games(){
+    	return Player_Games_ID;
+    }
+    vector<string> get_player_ign(){
+    	return Player_ign;
+    }
+    vector<Victory> get_player_victories(){
+    	return Player_Victories;
+    }
     string get_player_name(){
     	return Player_Name;
+    }
+    vector<int> get_player_friend(){
+    	return Player_Friend;
     }
    	int get_player_ID(){
    		return Player_ID;
