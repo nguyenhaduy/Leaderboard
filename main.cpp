@@ -199,7 +199,6 @@ void Summarize_Game(istringstream& iss, map <int, Game>& gamelist, map <int, Pla
                     }
                 }
             }
-
         }
     }
     cout << "\nNumber of times each Victory have been accomplished.\n"
@@ -213,11 +212,35 @@ void Summarize_Game(istringstream& iss, map <int, Game>& gamelist, map <int, Pla
 void Summarize_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int game_id, victory_id;
     iss >> game_id;
-    iss >> victory_id;
-    cout << game_id << endl;
-    cout << victory_id << endl;    
-    Game temp_game(gamelist.at(game_id));
-
+    iss >> victory_id;    
+    Game temp_game(gamelist.at(game_id));    
+    map <int, Victory> victorylist (temp_game.get_Game_Victories());
+    int player_got_victory = 0;
+    int player_play_game = 0;
+    double percentage;
+    cout << "\nAll players who have achieved this victory are: \n"    
+         << "---------------------------------------------------------------------"<< endl;
+    for (auto const& curr_player : playerlist) {
+        vector <int> games_played;
+        games_played = curr_player.second.get_player_games();
+        for (int i = 0; i < games_played.size(); ++i){
+            if (game_id == games_played[i]){
+                ++player_play_game;
+                vector<Victory> tmp_vic_list = curr_player.second.get_player_victories();
+                for (int j = 0; j < tmp_vic_list.size(); ++j){
+                    if ((game_id == tmp_vic_list[j].get_Game_ID())
+                        &&(victory_id == tmp_vic_list[j].get_Victory_ID())){
+                        ++player_got_victory;
+                        cout << curr_player.second.get_player_name() << endl;
+                    }
+                }
+            }
+        }
+    }
+    percentage = 100.00*((double)player_got_victory)/((double)player_play_game);
+    cout << "---------------------------------------------------------------------"<< endl
+         << "Percentage of player who play this game who have this Victory: " 
+         << percentage << endl;
 
 
 }
