@@ -13,18 +13,19 @@ using namespace std;
 class Player {
 	int Player_ID;
 	string Player_Name;
-	vector<int> Player_Games_ID;
-	vector<string> Player_ign;
-	vector<Victory> Player_Victories;
-	vector<int> Player_Friend;
-	int Player_Point;
+	vector<int> Player_Games_ID; // Game that is played
+	vector<string> Player_ign; // Player igm for a specific game
+	vector<Victory> Player_Victories; // Victories accquired
+	vector<int> Player_Friend; // Store friend ID
+	int Player_Point;  // Total points of player
 
 
 public:
+  //Constructor
 	Player(string name, int id)
 	:Player_Name(name), Player_ID(id), Player_Point(0) {}
 
-	//Copy contructor
+	//Copy constructor
 	Player(const Player& temp_player)
     {       
         Player_ID = temp_player.Player_ID;
@@ -51,41 +52,53 @@ public:
         }
         return *this;
     }
+
     vector<int> get_player_games() const {
     	return Player_Games_ID;
     }
+
     string get_player_ign(int i) const {
     	return Player_ign[i];
     }
+
     vector<Victory> get_player_victories() const {
     	return Player_Victories;
     }
+
     string get_player_name() const {
     	return Player_Name;
     }
+
     vector<int> get_player_friend() const {
     	return Player_Friend;
     }
+
    	int get_player_ID() const {
    		return Player_ID;
    	}
+
    	int get_player_point() const {
    		return Player_Point;
    	}
+
    	void set_player_name(string name){
    		Player_Name = name;
    	}
+
    	void set_player_ID(int id){
    		Player_ID = id;
    	}
+
    	void add_game(int temp_game_id, string temp_ign){
    		Player_Games_ID.push_back(temp_game_id);
    		Player_ign.push_back(temp_ign);
    	}
+
    	void add_victory(Victory temp_victory){
    		Player_Victories.push_back(temp_victory);
    		Player_Point = Player_Point + temp_victory.get_Victory_Point();
    	}
+    
    	void add_friend(int id){
    		Player_Friend.push_back(id);
    	}

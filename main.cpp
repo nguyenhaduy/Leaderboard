@@ -10,6 +10,7 @@
 
 using namespace std;
 
+//Add game to the database
 void Add_Game(istringstream& iss, map <int, Game>& gamelist){
     int game_id;
     string game_name;
@@ -21,6 +22,7 @@ void Add_Game(istringstream& iss, map <int, Game>& gamelist){
     gamelist.insert(make_pair(game_id, temp_game));
 }
 
+//Add player to the database
 void Add_Player(istringstream& iss, map <int, Player>& playerlist){
     int player_id;
     string player_name;
@@ -32,6 +34,7 @@ void Add_Player(istringstream& iss, map <int, Player>& playerlist){
     playerlist.insert(make_pair(player_id, temp_player));
 }
 
+//Add Victory to the game denoted by <Game ID>
 void Add_Victory(istringstream& iss, map <int, Game>& gamelist){
 	int game_id, victory_id, victory_point;
     string victory_name;
@@ -46,6 +49,7 @@ void Add_Victory(istringstream& iss, map <int, Game>& gamelist){
     
 }
 
+//Add entry for player playing a specific game
 void Plays(istringstream& iss, map <int, Player>& playerlist){
     int player_id, game_id;
     string player_ign;
@@ -57,6 +61,7 @@ void Plays(istringstream& iss, map <int, Player>& playerlist){
     playerlist.at(player_id).add_game(game_id, player_ign);
 }
 
+//Makes players 1 & 2 friends
 void Add_Friends(istringstream& iss, map <int, Player>& playerlist){
     int player_id_1, player_id_2;
     iss >> player_id_1;
@@ -67,6 +72,7 @@ void Add_Friends(istringstream& iss, map <int, Player>& playerlist){
     playerlist.at(player_id_2).add_friend(player_id_1);
 }
 
+//Adds Victory indicated to <Player ID>'s record
 void Win_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id, game_id, victory_id;
     iss >> player_id;
@@ -75,6 +81,7 @@ void Win_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, Player
     playerlist.at(player_id).add_victory(gamelist.at(game_id).get_Victory(victory_id));
 }
 
+//Report which of player's friends play the specified game
 void Friends_Who_Play(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id, game_id;
     iss >> player_id;
@@ -84,6 +91,7 @@ void Friends_Who_Play(istringstream& iss, map <int, Game>& gamelist, map <int, P
     cout << "\nFriends of \"" << temp_player.get_player_name()<< "\" who play \"" 
          <<gamelist.at(game_id).get_Game_Name() << "\"  are :" << endl
          << "-----------------------------------------------\n";
+    //Loop through vector of friends and compare the game they play with this game_id
     for (int i = 0; i < friend_id.size(); ++i){
         Player temp_friend(playerlist.at(friend_id[i]));
         vector<int> games_played = temp_friend.get_player_games();
@@ -94,6 +102,7 @@ void Friends_Who_Play(istringstream& iss, map <int, Game>& gamelist, map <int, P
     }
 }
 
+//Print report comparing player 1 and player 2's Victory records and total Victory scores for the given game
 void Compare_Players(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id_1, player_id_2, game_id;
     iss >> player_id_1;
@@ -105,7 +114,7 @@ void Compare_Players(istringstream& iss, map <int, Game>& gamelist, map <int, Pl
     vector<Victory> player2_victories (player_2.get_player_victories());
     int player1_score = 0;
     int player2_score = 0;
-
+    //Check Player 1 and calculate player 1's total score
     cout << "\nPlayer \"" << player_1.get_player_name() << "\" status for the game \""
          << gamelist.at(game_id).get_Game_Name() << "\" is: \n"
          << "---------------------------------------------------------------------\n";
@@ -120,7 +129,7 @@ void Compare_Players(istringstream& iss, map <int, Game>& gamelist, map <int, Pl
     cout << "---------------------------------------------------------------------\n"
          << setw(30) << left << "Total score is: " << setw(3) <<  player1_score << " pts" << endl; 
     
-
+    //Check Player 2 and calculate player 2's total score
     cout << "\n\nPlayer \"" << player_2.get_player_name() << "\" status for the game \""
          << gamelist.at(game_id).get_Game_Name() << "\" is: \n"
          << "---------------------------------------------------------------------\n";
@@ -135,6 +144,8 @@ void Compare_Players(istringstream& iss, map <int, Game>& gamelist, map <int, Pl
     cout << "---------------------------------------------------------------------\n"
          << setw(30) << left << "Total score is: " << setw(3) <<  player2_score << " pts" << endl; 
 }
+
+//Print record of all of player's friends, games the player plays, and gamer point totals.
 void Summarize_Player(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id;
     iss >> player_id;
@@ -147,9 +158,12 @@ void Summarize_Player(istringstream& iss, map <int, Game>& gamelist, map <int, P
     cout << "Total Gamerscore: " << temp_player. get_player_point() << "pts\n\n";
     cout << endl << "\tGane \t\tVictories     Gamerscore \tIGN" << endl
          <<"--------------------------------------------------------------------------"<< endl;
+
+    //Loop through the games that player plays
     for (int i = 0; i < games_played.size(); ++i){
         int num_victory = 0;
         int game_point = 0;
+        //Loop through the victories of that the player achieved
         for (int j = 0; j < player_victories.size(); ++j) {            
             if (player_victories[j].get_Game_ID() == games_played[i]){
                 ++num_victory;
@@ -175,6 +189,7 @@ void Summarize_Player(istringstream& iss, map <int, Game>& gamelist, map <int, P
     }
 }
 
+//Print a record of all players who play the specified game and the number of times each of its victories have been accomplished.
 void Summarize_Game(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int game_id;
     iss >> game_id;
@@ -183,13 +198,17 @@ void Summarize_Game(istringstream& iss, map <int, Game>& gamelist, map <int, Pla
     map <int, int> victories_check;
     cout << "\nAll players who play this game are: \n"    
          << "--------------------------------------------------"<< endl;
+    //Loop through the whole map of players
     for (auto const& curr_player : playerlist) {
         vector <int> games_played;
         games_played = curr_player.second.get_player_games();
+        //Loop through the games that player plays
         for (int i = 0; i < games_played.size(); ++i){
+            //check it the games is the same
             if (game_id == games_played[i]){
                 cout << curr_player.second.get_player_name() << endl;
                 vector<Victory> tmp_vic_list = curr_player.second.get_player_victories();
+                //Loop through the achieved victories 
                 for (int j = 0; j < tmp_vic_list.size(); ++j){
                     for (auto const& curr_victory : victorylist) {
                         if ((curr_victory.second.get_Game_ID() == tmp_vic_list[j].get_Game_ID())
@@ -209,6 +228,7 @@ void Summarize_Game(istringstream& iss, map <int, Game>& gamelist, map <int, Pla
     }
 }
 
+//Print a list of all players who have achieved a Victory, and the percentage of players who play that game who have the Victory.
 void Summarize_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int game_id, victory_id;
     iss >> game_id;
@@ -220,13 +240,17 @@ void Summarize_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, 
     double percentage;
     cout << "\nAll players who have achieved this victory are: \n"    
          << "---------------------------------------------------------------------"<< endl;
+    //Loop through the whole map of players
     for (auto const& curr_player : playerlist) {
         vector <int> games_played;
         games_played = curr_player.second.get_player_games();
+        //Loop through the games that player plays
         for (int i = 0; i < games_played.size(); ++i){
+            //check it the games is the same
             if (game_id == games_played[i]){
                 ++player_play_game;
                 vector<Victory> tmp_vic_list = curr_player.second.get_player_victories();
+                //Loop through the achieved victories and check if it is the same with victory_id
                 for (int j = 0; j < tmp_vic_list.size(); ++j){
                     if ((game_id == tmp_vic_list[j].get_Game_ID())
                         &&(victory_id == tmp_vic_list[j].get_Victory_ID())){
@@ -241,16 +265,17 @@ void Summarize_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, 
     cout << "---------------------------------------------------------------------"<< endl
          << "Percentage of player who play this game who have this Victory: " 
          << percentage << endl;
-
-
 }
 
+//Print a summary ranking all players by their total number of gamer points
 void Victory_Ranking(map <int, Player>& playerlist){
     vector<int> ranking_id, ranking_point;
+    //get the player total score and player ID to vectors prepare for sorting
     for (auto const& curr_player : playerlist) {
         ranking_point.push_back(curr_player.second.get_player_point());
         ranking_id.push_back(curr_player.second.get_player_ID());
     }
+    //Do bubble short for two vector at the same times, using total score as the
     for (int i = 1; i < ranking_id.size(); ++i){
         for (int j = 0; j < ranking_id.size() - i; ++j){
             if (ranking_point[j+1] > ranking_point[j]) {
@@ -328,6 +353,7 @@ void parser(istream& cin, map <int, Player>& playerlist, map <int, Game>& gameli
 int main()
 {
 	string command_line;
+    //Using map to make the database for player and game
     map <int, Player> playerlist;
     map <int, Game> gamelist;    
     cout << "Please input command: \n";
