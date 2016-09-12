@@ -99,10 +99,41 @@ void Compare_Players(istringstream& iss, map <int, Game>& gamelist, map <int, Pl
     iss >> player_id_1;
     iss >> player_id_2;
     iss >> game_id;
-    cout << player_id_1 << endl;
-    cout << player_id_2 << endl;
-    cout << game_id << endl;
+    Player player_1(playerlist.at(player_id_1));
+    Player player_2(playerlist.at(player_id_2));
+    vector<Victory> player1_victories (player_1.get_player_victories());
+    vector<Victory> player2_victories (player_2.get_player_victories());
+    int player1_score = 0;
+    int player2_score = 0;
 
+    cout << "\nPlayer \"" << player_1.get_player_name() << "\" status for the game \""
+         << gamelist.at(game_id).get_Game_Name() << "\" is: \n"
+         << "---------------------------------------------------------------------\n";
+    for (int i = 0; i < player1_victories.size(); ++i){
+        if (player1_victories[i].get_Game_ID() == game_id){
+            cout << setw(30) << left << player1_victories[i].get_Victory_Name()
+                 << setw(3) << left <<player1_victories[i].get_Victory_Point()
+                 << " pts" << endl;
+            player1_score = player1_score +player1_victories[i].get_Victory_Point();
+        }
+    }
+    cout << "---------------------------------------------------------------------\n"
+         << setw(30) << left << "Total score is: " << setw(3) <<  player1_score << " pts" << endl; 
+    
+
+    cout << "\n\nPlayer \"" << player_2.get_player_name() << "\" status for the game \""
+         << gamelist.at(game_id).get_Game_Name() << "\" is: \n"
+         << "---------------------------------------------------------------------\n";
+    for (int i = 0; i < player2_victories.size(); ++i){
+        if (player2_victories[i].get_Game_ID() == game_id){
+            cout << setw(30) << left << player2_victories[i].get_Victory_Name()
+                 << setw(3) << left <<player2_victories[i].get_Victory_Point()
+                 << " pts" << endl;
+            player2_score = player2_score +player2_victories[i].get_Victory_Point();
+        }
+    }    
+    cout << "---------------------------------------------------------------------\n"
+         << setw(30) << left << "Total score is: " << setw(3) <<  player2_score << " pts" << endl; 
 }
 void Summarize_Player(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id;
