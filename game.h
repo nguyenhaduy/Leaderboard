@@ -17,11 +17,31 @@ class Victory {
 public:
 	Victory(string name, int id, int game_id, int point)
 	:Victory_Name(name), Victory_Id(id), Game_ID(game_id), Victory_Point(point) {}
+	//Copy constructor
+	Victory(const Victory& temp_victory)
+    {       
+        Victory_Id = temp_victory.Victory_Id;
+        Victory_Name = temp_victory.Victory_Name;
+        Victory_Point = temp_victory.Victory_Point;
+        Game_ID =  temp_victory.Game_ID;
+    }
 
-	int get_Victory_Point(){
+    //Copy assignemnt operator
+    Victory& operator= (const Victory& temp_victory)
+    {
+        if (this != &temp_victory) // prevent self-assignment
+        {
+          	Victory_Id = temp_victory.Victory_Id;
+        Victory_Name = temp_victory.Victory_Name;
+        Victory_Point = temp_victory.Victory_Point;
+        Game_ID =  temp_victory.Game_ID;
+        }
+        return *this;
+    }
+	int get_Victory_Point() const {
 		return Victory_Point;
 	}
-	string get_Victory_Name(){
+	string get_Victory_Name() const {
 		return Victory_Name;
 	}
 	void set_Victory_Point(int point){
@@ -30,10 +50,10 @@ public:
 	void set_Victory_Name(string name){
 		Victory_Name = name;
 	}
-	int get_Victory_ID(){
+	int get_Victory_ID() const {
 		return Victory_Id;
 	}
-	int get_Game_ID(){
+	int get_Game_ID() const {
     	return Game_ID;
     }
     void set_Game_ID(int id){
@@ -50,6 +70,29 @@ class Game {
 public:
 	Game(string name, int id)
 	:Game_Name(name), Game_ID(id), number_of_Victories(0) {}
+
+	//Copy constructor
+	Game(const Game& temp_game)
+    {       
+        Game_ID = temp_game.Game_ID;
+        Game_Name = temp_game.Game_Name;
+        Game_Victories = temp_game.Game_Victories;
+        number_of_Victories =  temp_game.number_of_Victories;
+    }
+
+    //Copy assignemnt operator
+    Game& operator= (const Game& temp_game)
+    {
+        if (this != &temp_game) // prevent self-assignment
+        {
+          	Game_ID = temp_game.Game_ID;
+        	Game_Name = temp_game.Game_Name;
+        	Game_Victories = temp_game.Game_Victories;
+        	number_of_Victories =  temp_game.number_of_Victories;
+        }
+        return *this;
+    }
+
     int get_Game_ID(){
     	return Game_ID;
     }
@@ -58,6 +101,9 @@ public:
     }
     Victory get_Victory(int id){
     	return Game_Victories.at(id);
+    }
+    map<int, Victory> get_Game_Victories(){
+    	return Game_Victories;
     }
     int get_number_Victories(){
     	return number_of_Victories;

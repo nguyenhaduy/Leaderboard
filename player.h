@@ -51,25 +51,25 @@ public:
         }
         return *this;
     }
-    vector<int> get_player_games(){
+    vector<int> get_player_games() const {
     	return Player_Games_ID;
     }
-    string get_player_ign(int i){
+    string get_player_ign(int i) const {
     	return Player_ign[i];
     }
-    vector<Victory> get_player_victories(){
+    vector<Victory> get_player_victories() const {
     	return Player_Victories;
     }
-    string get_player_name(){
+    string get_player_name() const {
     	return Player_Name;
     }
-    vector<int> get_player_friend(){
+    vector<int> get_player_friend() const {
     	return Player_Friend;
     }
-   	int get_player_ID(){
+   	int get_player_ID() const {
    		return Player_ID;
    	}
-   	int get_player_point(){
+   	int get_player_point() const {
    		return Player_Point;
    	}
    	void set_player_name(string name){
