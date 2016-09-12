@@ -75,35 +75,26 @@ void Win_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, Player
     playerlist.at(player_id).add_victory(gamelist.at(game_id).get_Victory(victory_id));
 }
 
-void Friends_Who_Play(istringstream& iss, map <int, Player>& playerlist){
+void Friends_Who_Play(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id, game_id;
     iss >> player_id;
     iss >> game_id;
-    cout << player_id << endl;
-    cout << game_id << endl;
-    cout << "Friends Who Play this game are :" << endl;
     Player temp_player(playerlist.at(player_id));
-    vector<int> friend_id = temp_player.get_player_friend();
+    vector<int> friend_id = temp_player.get_player_friend();    
+    cout << "\nFriends of \"" << temp_player.get_player_name()<< "\" who play \"" 
+         <<gamelist.at(game_id).get_Game_Name() << "\"  are :" << endl
+         << "-----------------------------------------------\n";
     for (int i = 0; i < friend_id.size(); ++i){
         Player temp_friend(playerlist.at(friend_id[i]));
         vector<int> games_played = temp_friend.get_player_games();
         for (int j = 0; j < games_played.size(); ++j){
             if (game_id == games_played[j])
-                cout << playerlist.at(i).get_player_name()<<endl;
+                cout << temp_friend.get_player_name()<<endl;
         }
     }
-    // temp_player = playerlist.at(player_id);
-    // for (auto const& x : playerlist)
-    // {
-
-    //     std::cout << x.first  // Player_id (key)
-    //               << ':' 
-    //               << x.second // string's value 
-    //               << endl ;
-    // }
 }
 
-void Compare_Players(istringstream& iss, map <int, Player>& playerlist){
+void Compare_Players(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id_1, player_id_2, game_id;
     iss >> player_id_1;
     iss >> player_id_2;
@@ -196,6 +187,8 @@ void Summarize_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, 
     cout << victory_id << endl;    
     Game temp_game(gamelist.at(game_id));
 
+
+
 }
 
 void Victory_Ranking(map <int, Player>& playerlist){
@@ -234,7 +227,6 @@ void parser(istream& cin, map <int, Player>& playerlist, map <int, Game>& gameli
     istringstream iss(command_line);
     string command_code;
     iss >> command_code;
-    // cout << "Calling " << command_code << " function!" << endl;
 
     if (command_code == "AddGame"){
         Add_Game(iss, gamelist);
@@ -255,10 +247,10 @@ void parser(istream& cin, map <int, Player>& playerlist, map <int, Game>& gameli
         Win_Victory(iss, gamelist, playerlist);
     }
     else if (command_code == "FriendsWhoPlay"){
-        Friends_Who_Play(iss, playerlist);
+        Friends_Who_Play(iss, gamelist, playerlist);
     }
     else if (command_code == "ComparePlayers"){
-        Compare_Players(iss, playerlist);
+        Compare_Players(iss, gamelist, playerlist);
     }
     else if (command_code == "SummarizePlayer"){
         Summarize_Player(iss, gamelist, playerlist);
