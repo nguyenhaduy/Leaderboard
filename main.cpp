@@ -195,11 +195,37 @@ void Summarize_Victory(istringstream& iss, map <int, Game>& gamelist, map <int, 
     cout << game_id << endl;
     cout << victory_id << endl;    
     Game temp_game(gamelist.at(game_id));
-    
+
 }
 
 void Victory_Ranking(map <int, Player>& playerlist){
+    vector<int> ranking_id, ranking_point;
+    for (auto const& curr_player : playerlist) {
+        ranking_point.push_back(curr_player.second.get_player_point());
+        ranking_id.push_back(curr_player.second.get_player_ID());
+    }
+    for (int i = 1; i < ranking_id.size(); ++i){
+        for (int j = 0; j < ranking_id.size() - i; ++j){
+            if (ranking_point[j+1] > ranking_point[j]) {
+                int tmp = ranking_point[j]; // swap ranking_point[j] and ranking_point[j+1]
+                ranking_point[j] = ranking_point[j+1];
+                ranking_point[j+1] = tmp;
+                int tmp2 = ranking_id[j];
+                ranking_id[j] = ranking_id[j+1];
+                ranking_id[j+1] = tmp2;
+                }
+        }
+    }
+    cout << "\nRanking all players by total number of gamer points.\n"
+         << "\tPlayer \t\t         Total Point\n"
+         << "--------------------------------------------------------" << endl;
+    for (int i = 0; i < ranking_id.size(); ++i){
+        cout << i+1 << ".  "
+             << setw(30) << left << playerlist.at(ranking_id[i]).get_player_name()
+             << setw (5) << left << ranking_point[i] << "pts" << endl;
+    }
 }
+
 
 void parser(istream& cin, map <int, Player>& playerlist, map <int, Game>& gamelist){
     string command_line;
