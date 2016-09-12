@@ -16,7 +16,7 @@ class Victory {
 	int Game_ID;
 public:
 	Victory(string name, int id, int game_id, int point)
-	:Victory_Name(name), Victory_Id(id), Game_ID(id), Victory_Point(point) {}
+	:Victory_Name(name), Victory_Id(id), Game_ID(game_id), Victory_Point(point) {}
 
 	int get_Victory_Point(){
 		return Victory_Point;
@@ -30,6 +30,9 @@ public:
 	void set_Victory_Name(string name){
 		Victory_Name = name;
 	}
+	int get_Victory_ID(){
+		return Victory_Id;
+	}
 	int get_Game_ID(){
     	return Game_ID;
     }
@@ -42,10 +45,11 @@ class Game {
 	int Game_ID;
 	string Game_Name;
 	map<int, Victory> Game_Victories;
+	int number_of_Victories;
 
 public:
 	Game(string name, int id)
-	:Game_Name(name), Game_ID(id) {}
+	:Game_Name(name), Game_ID(id), number_of_Victories(0) {}
     int get_Game_ID(){
     	return Game_ID;
     }
@@ -55,6 +59,9 @@ public:
     Victory get_Victory(int id){
     	return Game_Victories.at(id);
     }
+    int get_number_Victories(){
+    	return number_of_Victories;
+    }
     void set_Game_ID(int id){
     	Game_ID = id;
     }
@@ -62,7 +69,8 @@ public:
     	Game_Name = name;
     }
     void add_Game_Victory(Victory temp_victory){
-    	Game_Victories.insert(make_pair(temp_victory.get_Game_ID(), temp_victory));
+    	Game_Victories.insert(make_pair(temp_victory.get_Victory_ID(), temp_victory));
+    	++number_of_Victories;
     }
 };
 

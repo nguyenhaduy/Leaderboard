@@ -41,7 +41,7 @@ public:
     {
         if (this != &temp_player) // prevent self-assignment
         {
-            Player_ID = temp_player.Player_ID;
+          Player_ID = temp_player.Player_ID;
         	Player_Name = temp_player.Player_Name;
         	Player_Point = temp_player.Player_Point;
         	Player_ign =  temp_player.Player_ign;
@@ -54,8 +54,8 @@ public:
     vector<int> get_player_games(){
     	return Player_Games_ID;
     }
-    vector<string> get_player_ign(){
-    	return Player_ign;
+    string get_player_ign(int i){
+    	return Player_ign[i];
     }
     vector<Victory> get_player_victories(){
     	return Player_Victories;

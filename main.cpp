@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 #include <map>
 #include "game.h"
 #include "player.h"
@@ -127,22 +128,46 @@ void Compare_Players(istringstream& iss, map <int, Player>& playerlist){
     cout << player_id_1 << endl;
     cout << player_id_2 << endl;
     cout << game_id << endl;
-    cout << "Friends Who Play this game are :" << endl;
-    Player temp_player(playerlist.at(player_id));
-    vector<int> friend_id = temp_player.get_player_friend();
-    for (int i = 0; i < friend_id.size(); ++i){
-        Player temp_friend(playerlist.at(friend_id[i]));
-        vector<int> games_played = temp_friend.get_player_games();
-        for (int j = 0; j < games_played.size(); ++j){
-            if (game_id == games_played[j])
-                cout << playerlist.at(i).get_player_name()<<endl;
-        }
-    }
+
 }
-void Summarize_Player(istringstream& iss, map <int, Player>& playerlist){
+void Summarize_Player(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int player_id;
     iss >> player_id;
-    cout << player_id << endl;
+    Player temp_player(playerlist.at(player_id));
+    vector<int> friend_id = temp_player.get_player_friend();
+    vector<int> games_played = temp_player.get_player_games();
+    vector<Victory> player_victories =  temp_player.get_player_victories();
+
+    cout << "Player: " << temp_player.get_player_name() << endl;
+    cout << "Total Gamerscore: " << temp_player. get_player_point() << "pts\n\n";
+    cout << endl << "\tGane \t\tVictories     Gamerscore \tIGN" << endl
+         <<"--------------------------------------------------------------------------"<< endl;
+    for (int i = 0; i < games_played.size(); ++i){
+        int num_victory = 0;
+        int game_point = 0;
+        for (int j = 0; j < player_victories.size(); ++j) {            
+            if (player_victories[j].get_Game_ID() == games_played[i]){
+                ++num_victory;
+                game_point = game_point + player_victories[j].get_Victory_Point();
+            }
+        }
+        cout << i+1 <<". " << setw(23) << left
+             << gamelist.at(games_played[i]).get_Game_Name() 
+             << num_victory << '/' << setw(10) << left 
+             << gamelist.at(games_played[i]).get_number_Victories()
+             << setw(5) << left << game_point << setw(10) << left << " pts" 
+             << setw(25) << left << temp_player.get_player_ign(i)
+             << endl;
+    }
+    cout << endl << "\tFriend \t\t\t  Gamerscore" << endl
+         <<"--------------------------------------------------"<< endl;
+    for (int i = 0; i < friend_id.size(); ++i){
+        cout << i+1 <<". " << setw(32) << left
+             << playerlist.at(friend_id[i]).get_player_name()
+             << setw(5) << left << playerlist.at(friend_id[i]).get_player_point()
+             << " pts" << endl;
+        
+    }
 }
 void Summarize_Game(istringstream& iss, map <int, Game>& gamelist, map <int, Player>& playerlist){
     int game_id;
@@ -193,7 +218,7 @@ void parser(istream& cin, map <int, Player>& playerlist, map <int, Game>& gameli
         Compare_Players(iss, playerlist);
     }
     else if (command_code == "SummarizePlayer"){
-        Summarize_Player(iss, playerlist);
+        Summarize_Player(iss, gamelist, playerlist);
     }
     else if (command_code == "SummarizeGame"){
         Summarize_Game(iss, gamelist, playerlist);
@@ -216,8 +241,6 @@ int main()
 	string command_line;
     map <int, Player> playerlist;
     map <int, Game> gamelist;
-//    vector<Player> playerlist;
-//    vector<Game> gamelist;
     while (cin)
     {
         parser(cin, playerlist, gamelist);
